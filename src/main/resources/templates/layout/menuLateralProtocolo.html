@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+	<body>
+		<aside th:fragment="sidebarprotocolo">
+			<section >
+				<div class="box box-solid">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">Pastas</h3>
+	            </div>
+	           <div class="box-body no-padding">
+	              <ul class="nav nav-pills nav-stacked">
+	                <li>
+	                	<a th:href="@{/fastprocess/protocolo}">
+	                		<i class="fa fa-inbox"></i> Caixa de Entrada
+	                  		<span class="label label-primary pull-right" th:if="${usuarioDashboardSeguranca.protocolosrecebidosemtramite != 0}"
+	                  		th:text="${usuarioDashboardSeguranca.protocolosrecebidosemtramite}">12</span>
+	                  	</a>
+	                </li>
+	                <li>
+	                	<a th:href="@{/fastprocess/protocolo/caixasaida}">
+	                		<i class="fa fa-envelope-o"></i> Enviados
+	                	</a>
+	                </li>
+	                <li>
+	                	<a th:href="@{/fastprocess/protocolo/caixarascunho}">
+	                		<i class="fa fa-file-text-o"></i> Rascunhos
+	                	</a>
+	                </li>
+	                <li>
+	                	<a href="#">
+	                		<i class="fa fa-trash-o"></i> Lixeira
+	                		<span class="label label-warning pull-right">65</span>
+	                	</a>
+	                </li>
+	              </ul>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+	          <!-- /. box -->
+	          <div class="box box-solid">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">Legenda</h3>
+	            </div>
+	            <div class="box-body no-padding">
+	              <ul class="nav nav-pills nav-stacked">
+	                <li><a href="#"><i class="fa fa-circle-o text-red"></i> Urgente</a></li>
+	                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> Importante</a></li>
+	                <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> Normal</a></li>
+	              </ul>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+			</section>
+		</aside>
+	</body>
+</html>

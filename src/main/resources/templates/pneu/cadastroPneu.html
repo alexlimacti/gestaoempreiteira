@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layoutPadrao">
+
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap/css/bootstrap-switch.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css}" />
+</head>
+
+
+<body> 
+	<div class="content-wrapper" layout:fragment="conteudo">
+	
+		<section class="content-header">
+			<h1 th:if="${pneu.novo}">Cadastro de Pneus</h1>
+			<h1 th:unless="${pneu.novo}" th:text="|Edição do Pneu ${pneu.codigo}|">Edição de Pneu</h1>
+			<ol class="breadcrumb">
+				<li>
+					<a th:href="@{/home/}">
+						<i class="fa fa-dashboard"></i>
+						Área de Trabalho
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/pneus}">Pneus</a>
+				</li>
+	        	<li class="active">Controle de Planos</li>
+      		</ol>
+    	</section>
+    	
+		<section class="content" >
+			<div class="box box-danger">
+				
+				<form method="POST" class="form-vertical  js-form-loading" th:object="${pneu}"
+					th:action="@{/pneus} ? @{/pneus/novo} : @{/pneus/{codigo}(codigo=${pneu.id})}">
+					
+					<div layout:include="fragments/mensagemErroValidacao"></div>
+					<div layout:include="fragments/mensagemSucesso"></div>
+					
+					<div class="box-header with-border">
+						<h3 class="box-title">Cadastro de Pneus</h3>
+	        		</div>
+					<div class="box-body row">
+						<input type="hidden" th:field="*{id}" />
+						<input type="hidden" th:field="*{version}"/>
+						
+	            		<div class="col-md-2 form-group">
+							<label for="codigo">Código de Identificação</label>
+							<input id="codigo" type="text" class="form-control" readonly="true" th:field="*{codigo}" />
+						</div>
+
+						<div class="col-sm-4 form-group" th:classappend="${#fields.hasErrors('marca')} ? 'has-error'">
+							<label for="marca" >Marca</label>
+							<div class="input-group">
+								<select id="marca" class="form-control" th:field="*{marca}">
+									<option value="">Selecione a Marca</option>
+									<option th:each="marca : ${marcas}" th:value="${marca.id}" th:text="${marca.descricao}">Pale lager</option>
+								</select>
+								
+								<div class="bw-field-action__icon input-group-addon">
+									<a href="#modalCadastroRapidoMarca" data-toggle="modal" data-target="#modalCadastroRapidoMarca">
+										<i class="glyphicon  glyphicon-plus-sign  bw-glyphicon-large"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-2 form-group" th:classappend="${#fields.hasErrors('tipo')} ? 'has-error'">
+							<label for="marca" >Tipo do Pneu</label>
+							<div class="input-group">
+								<select id="tipo" class="form-control" th:field="*{tipo}">
+									<option value="">Selecione o Tipo do Pneu</option>
+									<option th:each="tipo : ${tipospneu}" th:value="${tipo.id}" th:text="${tipo.descricao}">Pale lager</option>
+								</select>
+								
+								<div class="bw-field-action__icon input-group-addon">
+									<a href="#modalCadastroRapidoMarca" data-toggle="modal" data-target="#modalCadastroRapidoMarca">
+										<i class="glyphicon  glyphicon-plus-sign  bw-glyphicon-large"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 form-group" th:classappend="${#fields.hasErrors('modelo')} ? 'has-error'">
+							<label for="modelo" >Modelo</label>
+							<input id="modelo" type="text" class="form-control" th:field="*{modelo}" autofocus="autofocus"/>
+						</div>						
+					</div>
+					<div class="box-body row">
+						<div class="col-sm-2 form-group" th:classappend="${#fields.hasErrors('datacompra')} ? 'has-error'">
+								<label for="datacompra" class="control-label">Data da Compra</label>
+								<input type="text" class="form-control" id="datacompra"
+									th:field="*{datacompra}" data-provide="datepicker"
+									data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+									data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="buttom" />
+						</div>
+						<div class="col-md-3 form-group" th:classappend="${#fields.hasErrors('numeroserie')} ? 'has-error'">
+							<label for="numeroserie" >Número de Série</label>
+							<input id="numeroserie" type="text" class="form-control" th:field="*{numeroserie}" autofocus="autofocus"/>
+						</div>
+						<div class="col-sm-3  form-group"  th:classappend="${#fields.hasErrors('quilometragem')} ? 'has-error'">
+							<label for="quilometragem" class="control-label">Quilometragem</label>
+							<div class="input-group">
+								<div class="input-group-addon">KM</div>
+								<input id="quilometragem" type="number" class="form-control " th:field="*{quilometragem}"/>
+							</div>
+						</div>
+						<div class="col-sm-3 form-group">
+							<label class="control-label">Inutilizável?</label>
+							<div >
+								<input type="checkbox" class="js-status" data-size="small"  data-off-color="danger" data-on-text="Sim"
+									data-off-text="Não" th:field="*{inutilizavel}"/>
+							</div>
+						</div>
+					</div>
+					<div class="box-body ">
+						<button class="btn  btn-primary" type="submit">Salvar</button>
+					</div>
+				</form>	
+			</div>
+			<div th:replace="marca/cadastroRapidoMarca :: modal"></div>
+		</section>
+	</div>
+	
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/js/protocolo.js}"></script>
+		<script th:src="@{/adicional/jquery/jquery.maskMoney.min.js}"></script>
+		
+		<script th:src="@{/adicional/bootstrap/js/bootstrap-switch.min.js}"></script>
+		
+		<script th:src="@{/adicional/bootstrap-datepicker/js/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/adicional/bootstrap-datepicker/js/bootstrap-datepicker.pt-BR.min.js}"></script>
+		
+		<script th:src="@{/js/marca.cadastro-rapido.js}"></script>
+		<script>
+			$('.js-status').bootstrapSwitch();
+		</script>
+	</th:block>
+</body>
+</html>

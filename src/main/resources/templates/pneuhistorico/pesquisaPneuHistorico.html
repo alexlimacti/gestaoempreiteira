@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layoutPadrao">
+
+<head>
+</head>
+
+
+<body>
+	<div class="content-wrapper" layout:fragment="conteudo">
+		<section class="content-header">
+			<h1>Movimentação de Pneus</h1>
+			<ol class="breadcrumb">
+				<li><a th:href="@{/home/}"> <i
+						class="fa fa-dashboard"></i> Área de Trabalho
+				</a></li>
+				<li class="active"><a href="#">Movimentação de Pneus</a></li>
+			</ol>
+		</section>
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header">
+							<form method="GET" th:object="${filtro}">
+								<div class="box-body row">
+									<div class="form-group col-sm-2">
+										<input type="text" placeholder="Código de Identificação" class="form-control" id="codigo" autofocus="autofocus"/>
+									</div>
+									<div class="form-group col-sm-10">
+									<div class="input-group" >
+										<input class="form-control" placeholder="Descrição do Plano" autofocus="autofocus"></input>
+										<span class="input-group-btn">
+											<button type="submit" class="btn btn-default">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</span>
+									</div>
+									</div>
+								</div>
+								<div class="form-inline">
+									<div class="col-sm-1 form-group">
+										<button type="submit" class="btn btn-primary">
+											<i class="glyphicon  glyphicon-search"></i>
+											<span class="hidden-xs  hidden-sm">Pesquisar</span>
+										</button>
+									</div>
+									<div class="col-sm-1 form-group">
+										<div class="aw-page-header-controls">
+											<a class="btn  btn-default" th:href="@{/pneuhistorico/novo}">
+												<i class="glyphicon  glyphicon-plus-sign"></i>
+												<span class="hidden-xs  hidden-sm">Novo Movimento</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						
+						<!-- /.box-header -->
+						<div class="box-body table-responsive">
+							<table id="example2" class="table table-hover">
+								<thead>
+									<tr>
+										<th class="text-center col-md-1">Código</th>
+										<th>Pneu</th>
+										<th class="text-center">Data</th>
+										<th class="text-center col-md-1">Quilometragem</th>
+										<th class="text-center col-md-1"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="pneuhistorico : ${pneushistorico}">
+										<td class="text-center" th:text="${pneuhistorico.id}">PL05102011</td>
+										<td th:text="${pneuhistorico.pneu.codigo}">Plano Padrão</td>
+										<td class="text-center" th:text="${#dates.format(pneuhistorico.datahistorico, 'dd/MM/yyyy')}">50</td>										
+										<td class="text-center" th:text="${pneuhistorico.quilometragem}">0</td>
+										<td class="text-center">
+											<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" th:href="@{/pneus/{codigo}(codigo=${pneu.id})}" data-placement="top" >
+												<i class="fa fa-pencil-square" aria-hidden="true"></i>
+											</a>
+											<a class="btn  btn-link  btn-xs  js-tooltip" title="Excluir" th:href="@{/pneus/delete_pneu(id=${pneu.id})}">
+												<i class="glyphicon glyphicon-remove"></i>
+											</a>
+										</td>
+									</tr>
+									<tr th:if="${pneushistorico.empty}">
+										<td class="text-center" colspan="7">Nenhum histórico encontrado</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	
+	<!-- 
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/js/notificacao.js}"></script>
+	</th:block>
+	 -->
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layoutPadrao">
+
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap/css/bootstrap-switch.min.css}"/>
+</head>
+
+
+<body> 
+	<div class="content-wrapper" layout:fragment="conteudo">
+	
+		<section class="content-header">
+			<h1>Cadastro de Tipos de Pneu</h1>
+			<ol class="breadcrumb">
+				<li>
+					<a th:href="@{/home/}">
+						<i class="fa fa-dashboard"></i>
+						Área de Trabalho
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/pneutipo}">Tipos de Pneu</a>
+				</li>
+	        	<li class="active">Cadastro de Tipos de Pneu</li>
+      		</ol>
+    	</section>
+    	
+		<section class="content" >
+			<div class="box box-danger">
+				
+				<form method="POST" class="form-vertical  js-form-loading" th:object="${pneutipo}"
+					th:action="@{/pneutipo} ? @{/pneutipo/novo} : @{/pneutipo/{codigo}(codigo=${pneutipo.id})}">
+					
+					<div layout:include="fragments/mensagemErroValidacao"></div>
+					<div layout:include="fragments/mensagemSucesso"></div>
+					
+					<div class="box-header with-border">
+						<h3 class="box-title">Cadastro de Tipos de Pneu</h3>
+	        		</div>
+					<div class="box-body row">
+						<input type="hidden" th:field="*{id}" />
+						<input type="hidden" th:field="*{version}"/>
+						
+						<div class="col-md-4 form-group" th:classappend="${#fields.hasErrors('descricao')} ? 'has-error'">
+							<label for="descricao" >Descrição</label>
+							<input id="descricao" type="text" class="form-control" th:field="*{descricao}" autofocus="autofocus"/>
+						</div>
+						<div class="col-md-2 form-group" th:classappend="${#fields.hasErrors('sigla')} ? 'has-error'">
+							<label for="sigla" >Sigla</label>
+							<input id="sigla" type="text" class="form-control" th:field="*{sigla}" autofocus="autofocus"/>
+						</div>
+					</div>
+					<div class="box-body ">
+						<button class="btn  btn-primary" type="submit">Salvar</button>
+					</div>
+				</form>	
+			</div>
+		</section>
+	</div>
+</body>
+</html>

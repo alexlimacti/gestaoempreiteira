@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layoutPadrao">
+
+<head>
+</head>
+
+
+<body>
+	<div class="content-wrapper" layout:fragment="conteudo">
+		<section class="content-header">
+			<h1>Controle de Quilometragem de Equipamentos</h1>
+			<ol class="breadcrumb">
+				<li><a th:href="@{/home/}"> <i
+						class="fa fa-dashboard"></i> Área de Trabalho
+				</a></li>
+				<li class="active"><a href="#">Quilometragem de Equipamentos</a></li>
+			</ol>
+		</section>
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="form-inline">
+							<div class="box-header">
+									<div class="col-sm-1 form-group">
+										<button type="submit" class="btn btn-primary">
+											<i class="glyphicon  glyphicon-search"></i>
+											<span class="hidden-xs  hidden-sm">Pesquisar</span>
+										</button>
+									</div>
+									<div class="col-sm-1 form-group">
+										<div class="aw-page-header-controls">
+											<a class="btn  btn-default" th:href="@{/veiculoquilometragem/novo}">
+												<i class="glyphicon  glyphicon-plus-sign"></i>
+												<span class="hidden-xs  hidden-sm">Nova Quilometragem</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								</div>
+						
+						<!-- /.box-header -->
+						<div class="box-body table-responsive">
+							<table id="example2" class="table table-hover">
+								<thead>
+									<tr>
+										<th class="text-center col-md-1">Código</th>
+										<th>Equipamento</th>
+										<th class="text-center col-md-1">Quilometragem Inicial</th>
+										<th class="text-center col-md-1">Quilometragem Final</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="veiculoquilometragem : ${veiculosquilometragem}">
+										<td class="text-center" th:text="${veiculoquilometragem.id}">PL05102011</td>
+										<td th:text="|${veiculoquilometragem.veiculo.codigo} - ${veiculoquilometragem.veiculo.tipo.descricao}|">PL05102011</td>
+										<td class="text-center" th:text="|${veiculoquilometragem.quilometrageminicial} KM|">Tipo de Pneu</td>
+										<td class="text-center" th:text="|${veiculoquilometragem.quilometragemfinal} KM|">Tipo de Pneu</td>
+										<td class="text-center">
+											<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" th:href="@{/veiculoquilometragem/{id}(id=${veiculoquilometragem.id})}" data-placement="top" >
+												<i class="fa fa-edit" aria-hidden="true"></i>
+											</a>
+											<a class="btn  btn-link  btn-xs  js-tooltip" title="Excluir" th:href="@{/veiculoquilometragem/delete_veiculoquilometragem(id=${veiculoquilometragem.id})}">
+												<i class="glyphicon glyphicon-remove"></i>
+											</a>
+										</td>
+									</tr>
+									<tr th:if="${veiculosquilometragem.empty}">
+										<td class="text-center" colspan="7">Nenhuma pneutipo encontrado</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.box-body -->
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>

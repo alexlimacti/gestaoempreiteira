@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+	<header class="main-header" th:fragment="cabecalho">
+
+		<!-- Logo -->
+		<a th:href="@{#}" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini"><b>G</b>E</span> <!-- logo for regular state and mobile devices -->
+			<span class="logo-lg"><b>Gestão</b>Empreiteira</span>
+		</a>
+
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top" >
+			<!-- Sidebar toggle button-->
+			<a th:href="@{#}" class="sidebar-toggle js-sidebar-toggle fa  fa-bars" data-toggle="push-menu" role="button">
+				<span class="sr-only">Toggle navigation</span>
+			</a>
+			
+			
+			
+			<!-- Navbar Right Menu -->
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<!-- Messages: style can be found in dropdown.less-->
+					<li>
+						<a th:href="@{/logout}"><em class="fa  fa-sign-out-alt"></em></a>
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+	</header>
+</body>
+</html>

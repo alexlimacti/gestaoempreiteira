@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:data="http://www.thymeleaf.org/extras/data"
+	layout:decorator="layout/LayoutPadrao">
+
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/vendors/easy-autocomplete.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/vendors/easy-autocomplete.themes.min.css}" />
+</head>
+
+
+<body> 
+	<div class="content-wrapper" layout:fragment="conteudo">
+	
+		<section class="content-header">
+			<h1 th:if="${os.novo}">Solicitação de OS</h1>
+			<h1 th:unless="${os.novo}" th:text="|Edição da ${os.codigo}|">Edição de Pneu</h1>
+			<ol class="breadcrumb">
+				<li>
+					<a th:href="@{/home/}">
+						<i class="fa fa-dashboard"></i>
+						Área de Trabalho
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/os}">Ordem de Serviços</a>
+				</li>
+      		</ol>
+    	</section>
+    	
+		<section class="content" >
+			<div class="box box-danger">
+				
+				<form method="POST" class="form-vertical  js-form-loading" th:object="${os}"
+					th:action="@{/os} ? @{/os/novo} : @{/os/{codigo}(codigo=${os.id})}">
+					
+					<div layout:include="fragments/mensagemErroValidacao"></div>
+					<div layout:include="fragments/mensagemAviso"></div>
+					<div layout:include="fragments/mensagemSucesso"></div>
+					
+					
+					<div class="box-body row">
+						<input type="hidden" th:field="*{id}" />
+						<input type="hidden" th:field="*{version}"/>
+						
+	            		<div class="col-md-2 form-group">
+							<label for="codigo">Código de Identificação</label>
+							<input id="codigo" type="text" class="form-control" readonly="true" th:field="*{codigo}" />
+						</div>						
+						
+						<div class="col-sm-3 form-group" >
+							<label for="tipomanutencao" >Tipo de Manutenção</label>
+							<div class="input-group">
+								<select id="tipomanutencao" class="form-control" th:field="*{tipomanutencao}" th:classappend="${#fields.hasErrors('tipomanutencao')} ? 'has-error'">
+									<option value="">Selecione o Tipo de Manutenção</option>
+									<option th:each="tipomanutencao : ${tipomanutencoes}" th:value="${tipomanutencao}" th:text="${tipomanutencao}">Pale lager</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-sm-4 form-group" th:classappend="${#fields.hasErrors('veiculo')} ? 'has-error'">
+							<label for="veiculo" >Equipamentos</label>
+							<div class="input-group">
+								<select id="veiculo" class="form-control" th:field="*{veiculo}">
+									<option value="">Selecione o Equipamento</option>
+									<option th:each="veiculo : ${equipamentos}" th:value="${veiculo.id}" th:text="|${veiculo.codigo} -  ${veiculo.tipo.descricao}|">Pale lager</option>
+								</select>
+							</div>
+						</div>
+											
+					</div>
+					<div class="box-body row">
+						<div class="col-md-8 form-group" th:classappend="${#fields.hasErrors('descricaoproblema')} ? 'has-error'">
+							<label for="descricaoproblema">Descrição do Problema</label>
+							<textarea id="descricaoproblema" rows="4" class="form-control" th:field="*{descricaoproblema}" ></textarea>
+						</div>
+					</div>					
+					<div class="box-header with-border">
+						<h3 class="box-title">Serviços Efetuados na OS</h3>
+		        	</div>
+		        	<div class="box-body row">
+						<div class="col-md-8 form-group"  >
+							<input type="text" class="form-control control-label js-autocomplete-servico" id="servico" placeholder="Pesquise e adicione o serviço pela descrição" autofocus="autofocus" />
+						</div>
+						<input type="hidden" id="idServico" />
+					</div>
+					<th:block th:replace="ordemservico/tabelaservicos"/>
+					<div class="box-header with-border">
+						<h3 class="box-title">Materiais Utilizados na OS</h3>
+		        	</div>
+					<div class="box-body row">
+						<div class="col-md-8 form-group"  >
+							<input type="text" class="form-control" id="materiais" placeholder="Pesquise e adicione o material pela descrição" autofocus="autofocus" />
+						</div>
+						<input type="hidden" id="idMaterial" />
+					</div>	
+					<th:block th:replace="ordemservico/tabelaitens"/>
+					<div class="box-body " >
+						<div class="col-lg-12">
+					<div class="btn-group">
+						<button type="submit" class="btn  btn-primary  js-submit-btn" data:acao="salvar">Salvar</button>
+						<button type="button" class="btn  btn-primary  dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>					  
+						<ul class="dropdown-menu">
+							<li><a href="#" class="js-submit-btn" data:acao="emitir">Salvar e emitir</a></li>
+							<li><a href="#" class="js-submit-btn" data:acao="enviarEmail">Salvar e enviar por e-mail</a></li>
+						</ul>
+					</div>
+				
+					<button class="btn  btn-danger  js-submit-btn" data:acao="cancelar" >Cancelar</button>
+				</div>
+					</div>
+				</form>
+			</div>			
+			<th:block th:replace="hbs/templateAutoCompleteVeiculo" />
+		</section>
+		
+		  
+	</div>
+	
+	 <!-- Modal -->
+	 
+	
+	<th:block layout:fragment="javascript-extra">		
+		<script th:src="@{/js/vendors/jquery.easy-autocomplete.min.js}"></script>
+		<script th:src="@{/js/vendors/handlebars.min.js}"></script>
+		<script th:src="@{/js/ordemservico.js}"></script>
+	</th:block>
+</body>
+</html>

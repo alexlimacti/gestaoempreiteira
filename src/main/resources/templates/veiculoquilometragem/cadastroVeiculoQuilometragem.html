@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layoutPadrao">
+
+<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap/css/bootstrap-switch.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css}" />
+</head>
+
+
+<body> 
+	<div class="content-wrapper" layout:fragment="conteudo">
+	
+		<section class="content-header">
+			<h1 th:if="${veiculoquilometragem.novo}">Controle de Quilometragem de Equipamentos</h1>
+			<h1 th:unless="${veiculoquilometragem.novo}" th:text="|Edição do Pneu ${veiculoquilometragem.id}|">Edição da Quilometragem</h1>
+			<ol class="breadcrumb">
+				<li>
+					<a th:href="@{/home/}">
+						<i class="fa fa-dashboard"></i>
+						Área de Trabalho
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/veiculoquilometragem}">Quilometragem de Equipamentos</a>
+				</li>
+	        	<li class="active">Quilometragem de Equipamentos</li>
+      		</ol>
+    	</section>
+    	
+		<section class="content" >
+			<div class="box box-danger">
+				
+				<form method="POST" class="form-vertical  js-form-loading" th:object="${veiculoquilometragem}"
+					th:action="@{/pneus} ? @{/veiculoquilometragem/novo} : @{/veiculoquilometragem/{codigo}(codigo=${veiculoquilometragem.id})}">
+					
+					<div layout:include="fragments/mensagemErroValidacao"></div>
+					<div layout:include="fragments/mensagemAviso"></div>
+					<div layout:include="fragments/mensagemSucesso"></div>
+					
+					<div class="box-body row">
+						<input type="hidden" th:field="*{id}" />
+						<input type="hidden" th:field="*{version}"/>
+						
+						<div class="col-sm-4 form-group" th:classappend="${#fields.hasErrors('veiculo')} ? 'has-error'">
+							<label for="veiculo" >Equipamento</label>
+							<div class="input-group">
+								<select id="veiculo" class="form-control" th:field="*{veiculo}">
+									<option value="">Selecione o Equipamento</option>
+									<option th:each="veiculo : ${equipamentos}" th:value="${veiculo.id}" th:text="|${veiculo.codigo} - ${veiculo.tipo.descricao}|">Pale lager</option>
+								</select>
+								
+								<div class="bw-field-action__icon input-group-addon">
+									<a href="#modalCadastroRapidoMarca" data-toggle="modal" data-target="#modalCadastroRapidoMarca">
+										<i class="glyphicon  glyphicon-plus-sign  bw-glyphicon-large"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-2 form-group" th:classappend="${#fields.hasErrors('data')} ? 'has-error'">
+								<label for="data" class="control-label">Data</label>
+								<input type="text" class="form-control" id="data"
+									th:field="*{data}" data-provide="datepicker"
+									data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+									data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="buttom" />
+						</div>
+						<div class="col-sm-3  form-group"  th:classappend="${#fields.hasErrors('quilometrageminicial')} ? 'has-error'">
+							<label for="quilometrageminicial" class="control-label">Quilometragem Inicial</label>
+							<div class="input-group">
+								<div class="input-group-addon">KM</div>
+								<input id="quilometrageminicial" type="number" class="form-control " th:field="*{quilometrageminicial}"/>
+							</div>
+						</div>
+						<div class="col-sm-3  form-group"  th:classappend="${#fields.hasErrors('quilometragemfinal')} ? 'has-error'">
+							<label for="quilometragemfinal" class="control-label">Quilometragem Final</label>
+							<div class="input-group">
+								<div class="input-group-addon">KM</div>
+								<input id="quilometragemfinal" type="number" class="form-control " th:field="*{quilometragemfinal}"/>
+							</div>
+						</div>
+					</div>
+					<div class="box-body ">
+						<button class="btn  btn-primary" type="submit">Salvar</button>
+					</div>
+				</form>	
+			</div>
+		</section>
+	</div>
+	
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/js/protocolo.js}"></script>
+		<script th:src="@{/adicional/jquery/jquery.maskMoney.min.js}"></script>
+		
+		<script th:src="@{/adicional/bootstrap/js/bootstrap-switch.min.js}"></script>
+		
+		<script th:src="@{/adicional/bootstrap-datepicker/js/bootstrap-datepicker.min.js}"></script>
+		<script th:src="@{/adicional/bootstrap-datepicker/js/bootstrap-datepicker.pt-BR.min.js}"></script>
+		
+		<script th:src="@{/js/marca.cadastro-rapido.js}"></script>
+		<script>
+			$('.js-status').bootstrapSwitch();
+		</script>
+	</th:block>
+</body>
+</html>

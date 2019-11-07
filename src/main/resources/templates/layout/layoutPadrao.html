@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Fast Process - Empreiteira</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+		
+		<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap/css/bootstrap.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/adicional/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/adicional/font-awesome/css/all.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/adicional/jvectormap/jquery-jvectormap.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/AdminLTE.min.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/skins/_all-skins.min.css}" />
+		
+		
+		<link rel="stylesheet" type="text/css" th:href="@{/css/indeas.css}" />
+		
+		<link rel="shortcut icon" th:href="@{/img/favicon.png}"/>
+		<link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic}" />
+	</head>
+	
+	<body class="hold-transition skin-blue-light fixed sidebar-mini">
+		<div class="wrapper">
+	
+			<div th:replace="layout/barraNavegacao :: cabecalho"></div>
+				
+			<div th:replace="layout/menuLateral :: sidebar"></div>
+				
+			<section class="content-wrapper" layout:fragment="conteudo"></section>
+		</div>
+		
+		<script th:src="@{/js/vendors/vendors.min.js}"></script>
+		<script th:src="@{/adicional/jquery/jquery.min.js}"></script>
+		<script th:src="@{/adicional/bootstrap/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/adminlte.min.js}"></script>
+				
+		<th:block layout:fragment="javascript-extra"></th:block>
+		
+	</body>
+</html>

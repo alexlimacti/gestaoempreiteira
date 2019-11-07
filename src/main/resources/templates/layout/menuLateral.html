@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+
+	<aside class="main-sidebar" th:fragment="sidebar">
+
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			
+			<div class="user-panel" th:each="usuarioDashboardSeguranca : ${usuarioDashboardSeguranca}">
+				<div class="pull-left image">
+					<img th:if="*{usuarioDashboardSeguranca.logo != null}"
+					th:src="@{'data:image/jpg;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(usuarioDashboardSeguranca.logo)}}"
+					class="img-circle" alt="User Image"/>
+					<img th:if="*{usuarioDashboardSeguranca.logo == null}"
+					th:src="@{/img/avatar.jpg}"
+					class="img-circle" alt="User Image"/>
+				</div>
+				<div class="pull-left info">
+					<p><span class="hidden-xs user" th:text="${usuarioDashboardSeguranca.nome}"></span></p>
+					
+				</div>
+			</div>
+			
+			<ul class="sidebar-menu" data-widget="tree">
+				<li class="header">Menu Principal</li>
+
+				<li class="in-menu__item  in-menu__item--link">
+					<a th:href="@{/home}">
+						<i class="fa fa-home"></i>
+						<span>Área de Trabalho</span>
+					</a>
+				</li>
+				
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-file-signature"></i>
+						<span>Cadastros</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'marca'">
+							<a th:href="@{/marca}">
+						<i class="fa fa-truck-loading"></i>
+								<span>Fabricante</span>
+								<span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+						
+						
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'pneutipo'">
+							<a th:href="@{/pneutipo}">
+								<i class="fa fa-circle"></i>
+								<span>Tipo de Pneu</span>
+								<span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+						
+						
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'pneu'">
+							<a th:href="@{/pneus}">
+								<i class="fa fa-dot-circle"></i>
+								<span>Pneu</span>
+								<span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+						
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'veiculotipo'">
+							<a th:href="@{/veiculotipo}">
+								<i class="fa fa-truck"></i>
+								<span>Modelo de Equipamentos</span> 
+								<span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'veiculo'">
+							<a th:href="@{/veiculo}">
+								<i class="fa fa-subway"></i>
+								<span>Equipamentos</span> <span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+						
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'servico'">
+							<a th:href="@{/servicos}">
+								<i class="fa fa-wrench"></i>
+								<span>Serviços</span> <span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+						
+					</ul>
+				</li>
+				
+				<li class="treeview">
+					<a href="#">
+						<i class="fa fa-chevron-circle-down"></i>
+						<span>Movimentos</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+					
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'pneuquilometragem'">
+							<a th:href="@{/pneuhistorico}">
+								<i class="fa fa-road"></i>
+								<span>Movimento de Pneu</span>
+								<span class="pull-right-container">
+										<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+	
+					
+	
+						<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'veiculoquilometragem'">
+							<a th:href="@{/veiculoquilometragem}">
+								<i class="fa fa-tachometer-alt"></i>
+								<span>Veiculo Quimoletragem</span>
+								<span class="pull-right-container">
+									<span class="label label-primary pull-right"></span>
+								</span>
+							</a>
+						</li>
+	
+					<li class="in-menu__item  in-menu__item--link" th:each="permissao : ${permissoes}" th:if="${permissao.menu} == 'ordemservico'">
+						<a th:href="@{/os}"> <i class="fa fa-screwdriver"></i>
+							<span>Ordem de Serviços</span>
+							<span class="pull-right-container">
+								<span class="label label-primary pull-right"></span>
+							</span>
+						</a>
+					</li>
+					
+					
+					</ul>
+				</li>
+
+				<li class="in-menu__item  in-menu__item--link"
+					th:each="permissao : ${permissoes}"
+					th:if="${permissao.menu} == 'perfil'"><a th:href="@{#}"> <i
+						class="fa fa-users"></i> <span>Perfis de Acesso</span>
+				</a></li>
+
+				<li class="in-menu__item  in-menu__item--link"
+					th:each="permissao : ${permissoes}"
+					th:if="${permissao.menu} == 'usuario'"><a th:href="@{#}">
+						<i class="fa fa-user-secret"></i> <span>Usuários</span>
+				</a></li>
+
+				<li class="in-menu__item  in-menu__item--link"
+					th:each="permissao : ${permissoes}"
+					th:if="${permissao.menu} == 'licenca'"><a th:href="@{#}">
+						<i class="fa fa-id-card"></i> <span>Gerenciamento
+							de Licença</span>
+				</a></li>
+
+
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layoutPadrao">
+
+<head>
+	
+</head>
+
+
+<body> 
+	<div class="content-wrapper" layout:fragment="conteudo">
+	
+		<section class="content-header">
+			<h1 th:if="${servico.novo}">Cadastro de Serviços</h1>
+			<h1 th:unless="${servico.novo}" th:text="|Edição do Serviço ${servico.codigo}|">Edição de Pneu</h1>
+			<ol class="breadcrumb">
+				<li>
+					<a th:href="@{/home/}">
+						<i class="fa fa-dashboard"></i>
+						Área de Trabalho
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/servicos}">Serviços</a>
+				</li>
+	        	<li class="active">Cadastro de Serviços</li>
+      		</ol>
+    	</section>
+    	
+		<section class="content" >
+			<div class="box box-danger">
+				
+				<form method="POST" class="form-vertical  js-form-loading" th:object="${servico}"
+					th:action="@{/servico} ? @{/servicos/novo} : @{/servicos/{codigo}(codigo=${servico.id})}">
+					
+					<div layout:include="fragments/mensagemErroValidacao"></div>
+					<div layout:include="fragments/mensagemSucesso"></div>
+				
+					<div class="box-body row">
+						<input type="hidden" th:field="*{id}" />
+						<input type="hidden" th:field="*{version}"/>
+						
+						<div class="col-md-2 form-group">
+							<label for="codigo">Código de Identificação</label>
+							<input id="codigo" type="text" class="form-control" readonly="true" th:field="*{codigo}" />
+						</div>
+						
+						<div class="col-md-4 form-group" th:classappend="${#fields.hasErrors('descricao')} ? 'has-error'">
+							<label for="descricao" >Descrição</label>
+							<input id="descricao" type="text" class="form-control" th:field="*{descricao}" autofocus="autofocus"/>
+						</div>
+						
+						<div class="col-md-4 form-group" th:classappend="${#fields.hasErrors('detalhamentoservico')} ? 'has-error'">
+							<label for="detalhamentoservico">Descrição do Serviço</label>
+							<textarea id="detalhamentoservico" rows="4" class="form-control" th:field="*{detalhamentoservico}" ></textarea>
+						</div>
+						<div class="col-sm-2 form-group" th:classappend="${#fields.hasErrors('tiposervico')} ? 'has-error'">
+							<label for="tiposervico" >Tipo do Serviço</label>
+							<div class="input-group">
+								<select id="tiposervico" class="form-control" th:field="*{tiposervico}">
+									<option value="">Selecione o Tipo do Serviço</option>
+									<option th:each="tiposervico : ${tiposervicos}" th:value="${tiposervico}" th:text="${tiposervico}">Pale lager</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="box-body ">
+						<button class="btn  btn-primary" type="submit">Salvar</button>
+					</div>
+				</form>	
+			</div>
+		</section>
+	</div>
+	
+	<th:block layout:fragment="javascript-extra">
+	</th:block>
+</body>
+</html>
